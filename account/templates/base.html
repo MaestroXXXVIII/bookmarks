@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <span class="logo">Bookmarks</span>
+        {% if request.user.is_authenticated %}
+            <ul class="menu">
+                <li {% if section == 'dashboard' %}class="selected"{% endif %}>
+                    <a href="{% url 'dashboard' %}">My dashboard</a>
+                </li>
+                <li {% if section == 'images' %}class="selected"{% endif %}>
+                    <a href="#">Images</a>
+                </li>
+                <li {% if section == 'people' %}class="selected"{% endif %}>
+                    <a href="">People</a>
+                </li>
+            </ul>
+        {% endif %}
+        <span class="user">
+            {% if request.user.is_authenticated %}
+                Hello {{ request.user.first_name|default:request.user.username }} |
+                <a href="{% url 'logout' %}">Sign out</a>
+            {% else %}
+                <a href="{% url 'login' %}">Sign in</a>
+            {% endif %}
+        </span>
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
