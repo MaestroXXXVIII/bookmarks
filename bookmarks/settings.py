@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easy_thumbnails',
+    'filer',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +114,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -131,5 +132,16 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = '587'
+# EMAIL_USE_TLS = True
+#
+# EMAIL_HOST_USER = 'urmanov.pro@gmail.com'
+# EMAIL_HOST_PASSWORD = 'sdxn tpzy epod sklm '
+#
+# EMAIL_SERVER = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_ADMIN = ['urmanov.pro@gmail.com']
 
 from bookmarks.local_settings import *
