@@ -144,4 +144,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # EMAIL_ADMIN = ['urmanov.pro@gmail.com']
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
+
 from bookmarks.local_settings import *
