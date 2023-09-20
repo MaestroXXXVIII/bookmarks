@@ -27,3 +27,5 @@ jobs:
         pip install -r requirements.txt
     - name: Check pep8 in account
       run: flake8 account
+    - name: Type annotation checking account
+      run: mypy account
