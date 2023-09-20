@@ -1,6 +1,5 @@
-from django.db import models
 from django.conf import settings
-from filer.fields.image import FilerImageField
+from django.db import models
 
 
 class Profile(models.Model):

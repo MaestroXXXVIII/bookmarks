@@ -1,10 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm, \
-                   UserEditForm, ProfileEditForm
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from .forms import LoginForm, ProfileEditForm, UserEditForm, \
+                   UserRegistrationForm
 from .models import Profile
 
 
@@ -42,9 +43,9 @@ def user_login(request):
             else:
                 return HttpResponse('Disabled account')
         else:
-            return  HttpResponse('Invalid login')
+            return HttpResponse('Invalid login')
     else:
-        form=LoginForm()
+        form = LoginForm()
     return render(request,
                   'account/login.html',
                   {'form': form})
@@ -56,6 +57,7 @@ def dashboard(request):
     return render(request,
                   'account/dashboard.html',
                   {'section': 'dashboard'})
+
 
 @login_required
 def edit(request):
@@ -77,4 +79,4 @@ def edit(request):
     return render(request,
                   'account/edit.html',
                   {'user_form': user_form,
-                  'profile_form':profile_form})
+                   'profile_form': profile_form})
