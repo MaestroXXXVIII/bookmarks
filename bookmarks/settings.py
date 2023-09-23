@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'easy_thumbnails',
     'filer',
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -147,6 +149,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '752935993449-duphm8t04frtg5603l0trqlhj1osp2kk.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
 
 from bookmarks.local_settings import *
