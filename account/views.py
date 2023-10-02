@@ -1,10 +1,14 @@
+from actions.models import Action
+from actions.utils import create_action
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.views.decorators.http import require_POST
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
+
 
 from .forms import LoginForm, ProfileEditForm, UserEditForm, \
                    UserRegistrationForm
@@ -20,6 +24,7 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             Profile.objects.create(user=new_user)
+            create_action(request.user, 'has created an account')
             return render(request,
                           'account/register_done.html',
                           {'user_form': user_form})
@@ -56,9 +61,16 @@ def user_login(request):
 # проверка аутентификации текущего пользователя
 @login_required
 def dashboard(request):
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+    if following_ids:
+        actions = actions.filter(user_id__in=following_ids)
+    actions = actions.select_related('user', 'user__profile')[:10] \
+                     .prefetch_related('target')[:10]
     return render(request,
                   'account/dashboard.html',
-                  {'section': 'dashboard'})
+                  {'section': 'dashboard',
+                   'actions': actions})
 
 
 @login_required
@@ -113,6 +125,7 @@ def user_follow(request):
             if action == 'follow':
                 Subscription.objects.get_or_create(user_from=request.user,
                                                    user_to=user)
+                create_action(request.user, 'is following', user)
             else:
                 Subscription.objects.filter(user_from=request.user,
                                             user_to=user).delete()
